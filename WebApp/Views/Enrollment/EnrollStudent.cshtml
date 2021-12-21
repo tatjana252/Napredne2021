@@ -1,0 +1,100 @@
+﻿@model WebApp.Models.EnrollmentsViewModel
+
+@{
+    ViewData["Title"] = "EnrollStudent";
+}
+
+<h1>EnrollStudent</h1>
+
+@if (ViewBag.IsLoggedIn) { 
+    
+   <h1>hello</h1> 
+    
+
+}
+<hr />
+<div class="row">
+
+
+
+    <div class="col-md-4">
+        <form asp-action="EnrollStudent" asp-controller="Enrollment" method="POST">
+            <div asp-validation-summary="All" class="text-danger"></div>
+            <div data- class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Student.StudentName" class="control-label"></label>
+                <input asp-for="Student.StudentName" class="form-control" />
+                <span asp-validation-for="Student.StudentName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Student.StudentIndex" class="control-label"></label>
+                <input asp-for="Student.StudentIndex" class="form-control" />
+                <span asp-validation-for="Student.StudentIndex" class="text-danger"></span>
+            </div>
+
+              <div class="form-group">
+                <label class="control-label"></label>
+                <select id="courses" asp-items="@Model.Courses" class="form-control" ></select>
+            </div>
+
+            <button  class="btn" id="addCourse" type="button">Add course</button>
+          
+            <span asp-validation-for="Student.Courses"></span>
+            <span data-></span>
+            <table class="table-borderless" id="enrolledcourses">
+                <thead><tr>
+                    <th>
+                        Id
+                    </th>
+                    <th>
+                        Name
+                    </th>
+                    <th>ESPB</th>
+                </tr></thead>
+                <tbody>
+
+                </tbody>
+            </table>
+
+
+
+
+
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+
+        
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+    <script>
+        $("#addCourse").click(function(e){
+            $.ajax({
+                url: "@Url.Action("CoursePartial", "Course")",
+            method: 'GET',
+            data: {"courseid": $("#courses").val(), "sn": $("tbody tr").length },
+            success: function(data){
+                $("#enrolledcourses tbody").append(data);
+            },
+            error: function(data){
+                alert("error");
+            }
+            });
+        return false;
+        });
+
+
+
+    </script>
+
+
+
+}
