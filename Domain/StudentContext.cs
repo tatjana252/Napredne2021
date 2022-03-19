@@ -1,10 +1,16 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using System;
+using System.Diagnostics.CodeAnalysis;
 
 namespace Domain
 {
     public class StudentContext : DbContext
     {
+        public StudentContext([NotNull] DbContextOptions options) : base(options)
+        {
+        }
+
         public DbSet<Student> Students { get; set; }
         public DbSet<StudyProgram> StudyPrograms { get; set; }
         public DbSet<Course> Courses { get; set; }
@@ -15,7 +21,6 @@ namespace Domain
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlServer(@"Server=(localdb)\mssqllocaldb; Database=NapredneStudenti; Trusted_Connection=True;");
             optionsBuilder.LogTo(Console.WriteLine);
             optionsBuilder.EnableSensitiveDataLogging(true);
         }

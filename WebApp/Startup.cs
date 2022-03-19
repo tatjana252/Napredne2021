@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -23,7 +24,7 @@ namespace WebApp
         }
 
         public IConfiguration Configuration { get; }
-
+        //Server=(localdb)\mssqllocaldb; Database=NapredneStudenti; Trusted_Connection=True;
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
@@ -31,11 +32,17 @@ namespace WebApp
 
             services.AddScoped<IUnitOfWork, UnitOfWork>();
 
-            services.AddDbContext<StudentContext>();
-
-            services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie(opt => {
-             opt.ExpireTimeSpan = TimeSpan.FromMinutes(5);
+            services.AddDbContext<StudentContext>(options => { 
+                //var str = Configuration.GetConnectionString("baza");
+                //var str1 = Configuration.GetSection("ConnectionString")["baza"];
+                options.UseSqlServer(Configuration.GetConnectionString("baza")); 
             });
+
+            services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+                .AddCookie(opt =>
+                {
+                    opt.ExpireTimeSpan = TimeSpan.FromMinutes(5);
+                });
             services.AddSession();
             services.AddHttpClient();
         }
@@ -55,7 +62,6 @@ namespace WebApp
                 app.UseHsts();
             }
             app.UseHttpsRedirection();
-            
             app.UseStaticFiles();
             app.UseSession();
             app.UseRouting();

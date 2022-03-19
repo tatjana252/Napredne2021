@@ -33,14 +33,14 @@ namespace WebApp.Controllers
         [HttpGet]
         public async Task<IActionResult> IndexAsync()
         {
-            var client = factory.CreateClient();
+            //var client = factory.CreateClient();
 
-            var json = JsonSerializer.Serialize(new A { MyProperty = 48720 });
-            var content = new StringContent(json, Encoding.UTF8, "application/json");
+            //var json = JsonSerializer.Serialize(new A { MyProperty = 48720 });
+            //var content = new StringContent(json, Encoding.UTF8, "application/json");
 
-            client.DefaultRequestHeaders.Add("Accept", "application/json");
+            //client.DefaultRequestHeaders.Add("Accept", "application/json");
 
-            var response = await client.PostAsync("https://localhost:5003/api/v1/course/get", content);
+            //var response = await client.PostAsync("https://localhost:5003/api/v1/course/get", content);
             
             return View();
         }

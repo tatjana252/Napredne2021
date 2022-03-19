@@ -247,12 +247,12 @@ namespace ConsoleApp
             //context.SaveChanges();
             //List<Course> courses = repository.SearchBy(c => c.Id == 1);
 
-            using StudentContext context = new StudentContext();
+            //using StudentContext context = new StudentContext();
 
-            IUnitOfWork unitOfWork = new UnitOfWork(context);
+            //IUnitOfWork unitOfWork = new UnitOfWork(context);
 
-            unitOfWork.CourseRepository.Add(new Course { Name = "Course 3" });
-            unitOfWork.Save();
+            //unitOfWork.CourseRepository.Add(new Course { Name = "Course 3" });
+            //unitOfWork.Save();
 
 
         }
